@@ -15,7 +15,7 @@ var AuthorSchema = new Schema(
         date_of_birth: {type: Date},
         date_of_death: {type: Date},
     }
-)
+);
 
 //Virtual fields. These are not stored on the database.
 
@@ -37,7 +37,7 @@ AuthorSchema
 AuthorSchema
 .virtual('url')
 .get(function() {
-    return 'catalog/author' + this.id;
+    return 'catalog/author' + this._id;
 });
 
 module.exports = mongoose.model('Author', AuthorSchema);
