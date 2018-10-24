@@ -16,3 +16,28 @@ var AuthorSchema = new Schema(
         date_of_death: {type: Date},
     }
 )
+
+//Virtual fields. These are not stored on the database.
+
+//Returns authors full name
+AuthorSchema
+.virtual('name')
+.get(function() {
+    return this.family_name + ', ' + this.first_name;
+});
+
+//Returns author's lifespan, AKA age at death
+AuthorSchema
+.virtual('lifespan')
+.get(function() {
+    return (this.date_of_death.getYear() - this.date_of_birth.getYear()).toString();
+});
+
+//Returns an url to access a unique instance of the model
+AuthorSchema
+.virtual('url')
+.get(function() {
+    return 'catalog/author' + this.id;
+});
+
+module.exports = mongoose.model('Author', AuthorSchema);
