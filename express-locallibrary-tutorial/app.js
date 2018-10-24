@@ -9,6 +9,7 @@ var usersRouter = require('./routes/users');
 
 var app = express();
 
+//Setup mongoose connection
 var mongoose = require('mongoose');
 var mongoDB = 'mongodb://billy_ward:kirjasto1@ds139883.mlab.com:39883/local_library_billyward';
 mongoose.connect(mongoDB);
