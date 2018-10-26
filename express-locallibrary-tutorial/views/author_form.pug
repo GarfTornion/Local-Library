@@ -12,6 +12,9 @@ block content
       input#first_name.form-control(type='text' placeholder='First name (Christian) last' name='first_name' required='true' value=(undefined===author ? '' : author.first_name) )
       label(for='family_name') Family Name:
       input#family_name.form-control(type='text' placeholder='Family name (surname)' name='family_name' required='true' value=(undefined===author ? '' : author.family_name))
+      label(for='nationality') Nationality:
+      input#nationality.form-control(type='text' placeholder='Nationality' name='nationality' required='true' value=(undefined===author ? '' : author.nationality))
+
     div.form-group
       label(for='date_of_birth') Date of birth:
       input#date_of_birth.form-control(type='date' name='date_of_birth' value=(undefined===author ? '' : author.date_of_birth_yyyy_mm_dd) )

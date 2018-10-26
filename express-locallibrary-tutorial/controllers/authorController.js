@@ -83,6 +83,8 @@ exports.author_create_post = [
         .isAlphanumeric().withMessage('First name has non-alphanumeric characters.'),
     body('family_name').isLength({ min: 1 }).trim().withMessage('Family name must be specified.')
         .isAlphanumeric().withMessage('Family name has non-alphanumeric characters.'),
+    body('nationality').isLength({ min: 1}).trim().withMessage('Nationality must be specified.')
+        .isAlphanumeric().withMessage('Nationality has non-alphanumeric characters.'),
     body('date_of_birth', 'Invalid date of birth').optional({ checkFalsy: true }).isISO8601(),
     body('date_of_death', 'Invalid date of death').optional({ checkFalsy: true }).isISO8601(),
 
@@ -91,6 +93,7 @@ exports.author_create_post = [
     // toDate() casts the values to the respective types in JS
     sanitizeBody('first_name').trim().escape(),
     sanitizeBody('family_name').trim().escape(),
+    sanitizeBody('nationality').trim().escape(),
     sanitizeBody('date_of_birth').toDate(),
     sanitizeBody('date_of_death').toDate(),
 
@@ -115,6 +118,7 @@ exports.author_create_post = [
                 {
                     first_name: req.body.first_name,
                     family_name: req.body.family_name,
+                    nationality: req.body.nationality,
                     date_of_birth: req.body.date_of_birth,
                     date_of_death: req.body.date_of_death
                 });
@@ -209,12 +213,16 @@ exports.author_update_post = [
         .isAlphanumeric().withMessage('First name has non-alphanumeric characters.'),
     body('family_name').isLength({ min: 1 }).trim().withMessage('Family name must be specified.')
         .isAlphanumeric().withMessage('Family name has non-alphanumeric characters.'),
+    body('nationality').isLength({ min: 1}).trim().withMessage('Nationality must be specified.')
+        .isAlphanumeric().withMessage('Nationality has non-alphanumeric characters.'),
+
     body('date_of_birth', 'Invalid date of birth').optional({ checkFalsy: true }).isISO8601(),
     body('date_of_death', 'Invalid date of death').optional({ checkFalsy: true }).isISO8601(),
 
     // Sanitize fields.
     sanitizeBody('first_name').trim().escape(),
     sanitizeBody('family_name').trim().escape(),
+    sanitizeBody('nationality').trim().escape(),
     sanitizeBody('date_of_birth').toDate(),
     sanitizeBody('date_of_death').toDate(),
 
@@ -229,6 +237,7 @@ exports.author_update_post = [
             {
                 first_name: req.body.first_name,
                 family_name: req.body.family_name,
+                nationality: req.body.nationality,
                 date_of_birth: req.body.date_of_birth,
                 date_of_death: req.body.date_of_death,
                 _id: req.params.id
