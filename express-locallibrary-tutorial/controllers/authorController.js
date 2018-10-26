@@ -1,3 +1,7 @@
+//Load the validation modules
+const { body,validationResult } = require('express-validator/check');
+const { sanitizeBody } = require('express-validator/filter');
+
 //Load the module containing the AuthorSchema
 var Author = require('../models/author');
 
@@ -58,15 +62,38 @@ exports.author_detail = function(req, res, next) {
 
 };
 
-//Display Author create form on GET.
-exports.author_create_get = function(req, res) {
-    res.send('NOT IMPLEMENTED: Author create GET');
+// Display Author create form on GET.
+// Uses author_form view
+exports.author_create_get = function(req, res, next) {       
+    res.render('author_form', { title: 'Create Author'});
 };
 
-//Handle Author create on POST.
-exports.author_create_post = function(req, res) {
-    res.send('NOT IMPLEMENTED: Author create POST');
-};
+// Handle Author create on POST.
+exports.author_create_post = [
+
+    //Validate fields.
+    //isLength() checks that the string length is withing the accepted range
+    //trim() ensures that whitespace is not accepted in the form
+    //isAlphanumeric() checks that the string contaisn only letters and numbers
+    //withMessage() specifies the error message to display if an error occurs
+    //optional() allows to validate optional fields if they have been entered
+    //checkFalsy; true, means that an empty string or null will be considered empty
+    //isISO8601() checks that the date is compliant
+    body('first_name').isLength({ min: 1 }).trim().withMessage('First name must be specified.')
+        .isAlphanumeric().withMessage('First name has non-alphanumeric characters.'),
+    body('family_name').isLength({ min: 1 }).trim().withMessage('Family name must be specified.')
+        .isAlphanumeric().withMessage('Family name has non-alphanumeric characters.'),
+    body('date_of_birth', 'Invalid date of birth').optional({ checkFalsy: true }).isISO8601(),
+    body('date_of_death', 'Invalid date of death').optional({ checkFalsy: true }).isISO8601(),
+
+    // Sanitize fields.
+    // escape() removes characters that may be used in scripting attacks
+    // toDate() casts the values to the respective types in JS
+    sanitizeBody('first_name').trim().escape(),
+    sanitizeBody('family_name').trim().escape(),
+    sanitizeBody('date_of_birth').toDate(),
+    sanitizeBody('date_of_death').toDate(),
+];
 
 //Display Author delete form on GET.
 exports.author_delete_get = function(req, res) {
