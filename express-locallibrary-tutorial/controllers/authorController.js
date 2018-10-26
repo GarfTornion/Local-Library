@@ -93,6 +93,38 @@ exports.author_create_post = [
     sanitizeBody('family_name').trim().escape(),
     sanitizeBody('date_of_birth').toDate(),
     sanitizeBody('date_of_death').toDate(),
+
+    // Process request after validation and sanitization.
+    (req, res, next) => {
+
+        // Extract the validation errors from a request.
+        const errors = validationResult(req);
+
+        //Possible errors are stores into the errors-array
+        //If it is empty there are no errors
+        if (!errors.isEmpty()) {
+            // There are errors. Render form again with sanitized values/errors messages.
+            res.render('author_form', { title: 'Create Author', author: req.body, errors: errors.array() });
+            return;
+        }
+        else {
+            // Data from form is valid.
+
+            // Create an Author object with escaped and trimmed data.
+            var author = new Author(
+                {
+                    first_name: req.body.first_name,
+                    family_name: req.body.family_name,
+                    date_of_birth: req.body.date_of_birth,
+                    date_of_death: req.body.date_of_death
+                });
+            author.save(function (err) {
+                if (err) { return next(err); }
+                // Successful - redirect to new author record.
+                res.redirect(author.url);
+            });
+        }
+    }
 ];
 
 //Display Author delete form on GET.
