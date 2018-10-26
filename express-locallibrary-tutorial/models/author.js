@@ -44,6 +44,19 @@ AuthorSchema
     + ' - ' + moment(this.date_of_death).format('MMMM Do, YYYY').toString());
 });
 
+//Seperate formatted dates for birth and death
+AuthorSchema
+.virtual('date_of_birth_yyyy_mm_dd')
+.get(function () {
+  return moment(this.date_of_birth).format('YYYY-MM-DD');
+});
+
+AuthorSchema
+.virtual('date_of_death_yyyy_mm_dd')
+.get(function () {
+  return moment(this.date_of_death).format('YYYY-MM-DD');
+});
+
 //Returns an url to access a unique instance of the model
 AuthorSchema
 .virtual('url')
