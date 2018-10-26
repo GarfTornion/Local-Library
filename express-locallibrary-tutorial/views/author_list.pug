@@ -1,0 +1,21 @@
+extends layout
+
+block content
+  <!--This view is extended into the layout-view-->
+
+  <!--Identifies the block where the content is to be placed in
+    Layout.pug contains a block named 'content'
+    The Title is provided through the controller as data-->
+  h1= title
+  
+  ul
+    <!--Iterates through each author object in the list
+    A list element is created for each object
+    If there are no authors, a small text is rendered-->
+    each author in author_list
+      li
+        a(href=author.url) #{author.name} 
+        |  (#{author.date_of_birth} - #{author.date_of_death})
+
+    else
+      li There are no authors.

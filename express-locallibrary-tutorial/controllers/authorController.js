@@ -1,10 +1,21 @@
 //Load the module containing the AuthorSchema
 var Author = require('../models/author');
 
-//Display list of all Authors.
-exports.author_list = function(req, res) {
-    res.send('NOT IMPLEMENTED: Author list');
-};
+// Display list of all Authors.
+exports.author_list = function(req, res, next) {
+
+    //Finds all Author objects and sorts them via the family_name field
+    //If successful, a list of authors is passed to the callback
+    //Data is rendered into the author_list view
+    Author.find()
+      .sort([['family_name', 'ascending']])
+      .exec(function (err, list_authors) {
+        if (err) { return next(err); }
+        //Successful, so render
+        res.render('author_list', { title: 'Author List', author_list: list_authors });
+      });
+  
+  };
 
 //Display detail page for a specific Author.
 exports.author_detail = function(req, res) {
