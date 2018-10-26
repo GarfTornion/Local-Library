@@ -20,8 +20,9 @@ block content
         dt 
           a(href=book.url) #{book.title}
         dd #{book.summary}
-  <!--If no books are left, ask for confirmation.-->
+  
   else
+    <!--If no books are left, ask for confirmation.-->
     p Do you really want to delete this Author?
     
     form(method='POST' action='')
