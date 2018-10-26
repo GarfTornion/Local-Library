@@ -1,6 +1,9 @@
 //Load mongoose
 var mongoose = require('mongoose');
 
+//Load moment for formatting
+var moment = require('moment');
+
 //Define a new schema
 var Schema = mongoose.Schema;
 
@@ -31,6 +34,14 @@ AuthorSchema
 .virtual('lifespan')
 .get(function() {
     return (this.date_of_death.getYear() - this.date_of_birth.getYear()).toString();
+});
+
+//Returns the author's lifespan with formatted dates
+AuthorSchema
+.virtual('lifespan_formatted')
+.get(function() {
+    return (moment(this.date_of_birth).format('MMMM Do, YYYY').toString() 
+    + ' - ' + moment(this.date_of_death).format('MMMM Do, YYYY').toString());
 });
 
 //Returns an url to access a unique instance of the model
