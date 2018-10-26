@@ -1,0 +1,23 @@
+extends layout
+
+block content
+  <!--View is extended into the layout view
+      and placed into the content block-->
+  h1 Author: #{author.name}
+  p #{author.date_of_birth} - #{author.date_of_death}
+  
+  div(style='margin-left:20px;margin-top:20px')
+
+    h4 Books
+    
+    dl
+      <!--For each book object in the list of an author's books
+          a element is rendered that displays a link with the
+          books name and summary-->
+      each book in author_books
+        dt 
+          a(href=book.url) #{book.title}
+        dd #{book.summary}
+
+      else
+        p This author has no books.
